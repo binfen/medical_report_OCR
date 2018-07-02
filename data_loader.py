@@ -8,6 +8,10 @@ from PIL import Image
 
 from image_augmentor import ImageAugmentor
 
+root_path = os.getcwd()
+# for google's colab environment
+if root_path.find('medical_report_OCR') == -1:
+    root_path = os.path.join(root_path, 'medical_report_OCR')
 
 class CharsLoader:
     """Class that loads and prepares the OCR chars dataset
@@ -45,7 +49,7 @@ class CharsLoader:
             假设batch_size=16，那么image_number=16*2*2
         """
 
-        self.dataset_path = dataset_path
+        self.dataset_path = os.path.join(root_path, dataset_path)
         self.train_dictionary = {}  #set value by hand?
         self.evaluation_dictionary = {}
         self.image_width = 105
@@ -73,7 +77,7 @@ class CharsLoader:
         for each of the train and evaluation set.
 
         """
-
+        print(self.dataset_path)
         train_path = os.path.join(self.dataset_path, 'images_background')
         validation_path = os.path.join(self.dataset_path, 'images_evaluation')
 
