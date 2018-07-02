@@ -16,9 +16,14 @@ import re
 from PIL import Image
 from PIL import ImageFont, ImageDraw, ImageFilter
 
-dataset_path = './images_background'
-fonts_folder = './fonts/'
-fonts = os.listdir(fonts_folder)
+root_path = os.getcwd()
+# for google's colab environment
+if root_path.find('medical_report_OCR') == -1:
+    root_path = os.path.join(root_path, 'medical_report_OCR')
+
+dataset_path = os.path.join(root_path, 'gen_simulated_data/images_background')
+fonts_path = os.path.join(root_path, 'gen_simulated_data/fonts')
+fonts = os.listdir(fonts_path)
 # for mac computer's environment
 if '.DS_Store' in fonts:
     fonts.remove('.DS_Store')
@@ -65,7 +70,7 @@ def gen_image(line, i, length):
         img = Image.new('RGB', (max_width, h), (255, 255, 255))
         draw = ImageDraw.Draw(img)
 
-        font_path = fonts_folder + font
+        font_path = os.path.join(fonts_path, font)
         fontsize = 30
         # w0 = (w - length * fontsize) // 2  # start x
         w0 = 5 # align left
@@ -77,7 +82,8 @@ def gen_image(line, i, length):
 
 
 print("Begin!")
-with open('items.txt') as f:
+item_file = os.path.join(root_path, 'gen_simulated_data/items.txt')
+with open(item_file) as f:
     lines = f.readlines()
     for i, line in enumerate(lines):
         print("Generate %d item!" % (i+1))
