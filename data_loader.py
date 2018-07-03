@@ -77,7 +77,7 @@ class CharsLoader:
         for each of the train and evaluation set.
 
         """
-        print(self.dataset_path)
+        print("the current dataset_path is: ", self.dataset_path)
         train_path = os.path.join(self.dataset_path, 'images_background')
         validation_path = os.path.join(self.dataset_path, 'images_evaluation')
 
