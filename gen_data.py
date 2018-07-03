@@ -21,7 +21,6 @@ root_path = os.getcwd()
 if root_path.find('medical_report_OCR') == -1:
     root_path = os.path.join(root_path, 'medical_report_OCR')
 
-dataset_path = os.path.join(root_path, 'gen_simulated_data/images_background')
 fonts_path = os.path.join(root_path, 'gen_simulated_data/fonts')
 fonts = os.listdir(fonts_path)
 # for mac computer's environment
@@ -49,7 +48,7 @@ def get_len(line):
 
 
 
-def gen_image(line, i, length):
+def gen_image(line, i, length, is_background):
     '''
 	generate image sample
 	params:
@@ -61,6 +60,10 @@ def gen_image(line, i, length):
     k = length // 2  # belong to bucket k, the minimum length is 0
     max_width = 64*10
     h = 64
+    if is_background:
+        dataset_path = os.path.join(root_path, 'gen_simulated_data/images_background')
+    else:
+        dataset_path = os.path.join(root_path, 'gen_simulated_data/images_evaluation')
 
     folder = dataset_path + '/bucket' + str(k + 1) + '/char' + str(i + 1)
     if not os.path.exists(folder):
@@ -85,9 +88,18 @@ print("Begin!")
 item_file = os.path.join(root_path, 'gen_simulated_data/items.txt')
 with open(item_file) as f:
     lines = f.readlines()
+    lines_num = len(lines)
+    # evalation dataset ratio is 10%
+    evaluation_index = random.sample(
+            range(0, lines_num-1), int(lines_num*0.1))
     for i, line in enumerate(lines):
-        print("Generate %d item!" % (i+1))
         line = line.strip()
         length = get_len(line)
-        gen_image(line, i, length)
+        # generation images_background
+        if i in evaluation_index:
+            print("Generate %d item for images_evaluation" % (i+1))
+            gen_image(line, i, length, is_background=False)
+        else:
+            print("Generate %d item for images_background" % (i+1))
+            gen_image(line, i, length, is_background=True)
 print("End!")

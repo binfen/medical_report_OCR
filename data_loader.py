@@ -52,8 +52,8 @@ class CharsLoader:
         self.dataset_path = os.path.join(root_path, dataset_path)
         self.train_dictionary = {}  #set value by hand?
         self.evaluation_dictionary = {}
-        self.image_width = 105
-        self.image_height = 105
+        self.image_width = 640
+        self.image_height = 64
         self.batch_size = batch_size
         self.use_augmentation = use_augmentation
         self.__train_buckets = []
@@ -175,17 +175,27 @@ class CharsLoader:
         """
         number_of_pairs = int(len(path_list) / 2)
         pairs_of_images = [np.zeros(
-            (number_of_pairs, self.image_height, self.image_height, 1)) for i in range(2)]
+            (number_of_pairs, self.image_height, self.image_width, 1)) for i in range(2)]
         labels = np.zeros((number_of_pairs, 1))
 
         for pair in range(number_of_pairs):
             image = Image.open(path_list[pair * 2])
+            # if image has 3 channel
+            arr = np.array(image)
+            if len(arr.shape) == 3:
+                image = Image.fromarray(arr[:, :, 0])
+
             image = np.asarray(image).astype(np.float64)
             image = image / image.std() - image.mean()
             # [0]代表存放正/负样本
             pairs_of_images[0][pair, :, :, 0] = image
 
             image = Image.open(path_list[pair * 2 + 1])
+            # if image has 3 channel
+            arr = np.array(image)
+            if len(arr.shape) == 3:
+                image = Image.fromarray(arr[:, :, 0])
+
             image = np.asarray(image).astype(np.float64)
             image = image / image.std() - image.mean()
             # [1]代表存放对应样本
