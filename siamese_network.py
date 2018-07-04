@@ -262,13 +262,13 @@ class SiameseNetwork:
                   (iteration + 1, number_of_iterations, train_loss, train_accuracy, K.get_value(
                       self.model.optimizer.lr)))
 
-            # Each 100 iterations perform a one_shot_task and write to tensorboard the
+            # Each evaluate_each=1000 iterations perform a one_shot_task and write to tensorboard the
             # stored losses and accuracies
             if (iteration + 1) % evaluate_each == 0:
                 # evaluation时需要进行验证的图像数目
                 number_of_runs_per_bucket = 40
                 # use a support set size equal to the number of character in the bucket
-                validation_accuracy = self.char_loader.one_shot_test(
+                validation_accuracy = self.chars_loader.one_shot_test(
                     self.model, support_set_size, number_of_runs_per_bucket, is_validation=True)
 
                 self.__write_logs_to_tensorboard(

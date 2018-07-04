@@ -1,3 +1,5 @@
+# -*- coding:utf8 -*-
+
 import GPy
 import GPyOpt
 import keras.backend as K
@@ -5,7 +7,10 @@ import keras.backend as K
 from siamese_network import SiameseNetwork
 
 current_model_number = 0
-
+'''
+Analog to grid search method, we use bayesian approach 
+to search hyperparameters space. So we need to call the SiameseNetwork by bayesian's decision 
+'''
 
 def main():
 
@@ -23,6 +28,8 @@ def main():
                         'domain': (0.01, 0.1, 1, 10)},
                        {'name': 'Conv4_multiplier', 'type': 'discrete',
                         'domain': (0.01, 0.1, 1, 10)},
+                       {'name': 'Conv5_multiplier', 'type': 'discrete',
+                        'domain': (0.01, 0.1, 1, 10)},
                        {'name': 'Dense1_multiplier', 'type': 'discrete',
                         'domain': (0.01, 0.1, 1, 10)},
                        {'name': 'l2_penalization_Conv1', 'type': 'discrete',
@@ -33,10 +40,12 @@ def main():
                         'domain': (0, 0.0001, 0.001, 0.01, 0.1)},
                        {'name': 'l2_penalization_Conv4', 'type': 'discrete',
                         'domain': (0, 0.0001, 0.001, 0.01, 0.1)},
+                       {'name': 'l2_penalization_Conv5', 'type': 'discrete',
+                        'domain': (0, 0.0001, 0.001, 0.01, 0.1)},
                        {'name': 'l2_penalization_Dense1', 'type': 'discrete',
                         'domain': (0, 0.0001, 0.001, 0.01, 0.1)}]
 
-    def bayesian_optimization_function(x):
+    def bayesian_optimization_function(x):  # what's the x mean?
         dataset_path = 'gen_simulated_data'
 
         current_learning_rate = float(x[:, 0])
@@ -46,12 +55,14 @@ def main():
         current_conv2_multiplier = float(x[:, 4])
         current_conv3_multiplier = float(x[:, 5])
         current_conv4_multiplier = float(x[:, 6])
-        current_dense1_multiplier = float(x[:, 7])
-        current_conv1_penalization = float(x[:, 8])
-        current_conv2_penalization = float(x[:, 9])
-        current_conv3_penalization = float(x[:, 10])
-        current_conv4_penalization = float(x[:, 11])
-        current_dense1_penalization = float(x[:, 12])
+        current_conv5_multiplier = float(x[:, 7])
+        current_dense1_multiplier = float(x[:, 8])
+        current_conv1_penalization = float(x[:, 9])
+        current_conv2_penalization = float(x[:, 10])
+        current_conv3_penalization = float(x[:, 11])
+        current_conv4_penalization = float(x[:, 12])
+        current_conv5_penalization = float(x[:, 13])
+        current_dense1_penalization = float(x[:, 14])
 
         model_name = 'siamese_net_lr_' + str(current_learning_rate) + \
             'momentum_' + str(current_momentum) + '_slope_' + \
@@ -67,6 +78,7 @@ def main():
         learning_rate_multipliers['Conv2'] = current_conv2_multiplier
         learning_rate_multipliers['Conv3'] = current_conv3_multiplier
         learning_rate_multipliers['Conv4'] = current_conv4_multiplier
+        learning_rate_multipliers['Conv5'] = current_conv5_multiplier
         learning_rate_multipliers['Dense1'] = current_dense1_multiplier
         # l2-regularization penalization for each layer
         l2_penalization = {}
@@ -74,12 +86,13 @@ def main():
         l2_penalization['Conv2'] = current_conv2_penalization
         l2_penalization['Conv3'] = current_conv3_penalization
         l2_penalization['Conv4'] = current_conv4_penalization
+        l2_penalization['Conv5'] = current_conv5_penalization
         l2_penalization['Dense1'] = current_dense1_penalization
         K.clear_session()
         siamese_network = SiameseNetwork(
             dataset_path=dataset_path,
             learning_rate=current_learning_rate,
-            batch_size=32, use_augmentation=True,
+            batch_size=16, use_augmentation=True,
             learning_rate_multipliers=learning_rate_multipliers,
             l2_regularization_penalization=l2_penalization,
             tensorboard_log_path=tensorboard_log_path
