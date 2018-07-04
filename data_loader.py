@@ -348,7 +348,7 @@ class CharsLoader:
 
         available_images = (dictionary[current_bucket])[current_character]
 
-        image_indexes = random.sample(range(0, 20), 2)
+        image_indexes = random.sample(range(0, 19), 2)
         image_path = os.path.join(
             self.dataset_path, image_folder_name, current_bucket, current_character)
 
@@ -382,7 +382,7 @@ class CharsLoader:
             image_path = os.path.join(
                 self.dataset_path, image_folder_name, current_bucket, current_character)
 
-            image_indexes = random.sample(range(0, 20), 1)
+            image_indexes = random.sample(range(0, 19), 1)
             image = os.path.join(
                 image_path, available_images[image_indexes[0]])
             bacth_images_path.append(test_image)

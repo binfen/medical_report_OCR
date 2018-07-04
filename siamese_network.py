@@ -1,3 +1,5 @@
+# -*- coding:utf8 -*-
+
 import os
 
 import keras.backend as K
