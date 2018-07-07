@@ -1,6 +1,6 @@
 # -*- coding:utf8 -*-
 
-import GPy
+# import GPy
 import GPyOpt
 import keras.backend as K
 
