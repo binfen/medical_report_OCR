@@ -237,7 +237,7 @@ class CharsLoader:
         size of n, with n/2 pairs of different classes and n/2 pairs of the same
         class. Each batch will only contains samples from one single bucket.
 
-        对一个bucket下的所有charactor目录进行遍历，获得按照batch_size大小的image_pairs，
+        对一个bucket下的所有charactor目录进行遍历，获得按照batch_size大小的随机组合image_pairs，
         并且是经过augmented的正负样本对。每次iteration都进行get_train_batch()，
 
         Returns:
@@ -282,12 +282,9 @@ class CharsLoader:
             bacth_images_path.append(image)
             different_characters = available_characters[:]
             different_characters.pop(index)
-            print("number_of_characters in get_train_batch(): ", number_of_characters)
-            #different_character_index = random.sample(
-                #range(0, number_of_characters), 1)
-            different_character_index = random.randint(0, len(different_characters))
-            print("different_character_index: ", different_character_index)
-            print("len(different_characters): ", len(different_characters))
+            # number_of_characters must be larger than 1, otherwise it has not 2 samples to compare
+            different_character_index = random.sample(
+                range(0, number_of_characters - 1), 1)
             current_character = different_characters[different_character_index]
             available_images = (self.train_dictionary[current_bucket])[
                 current_character]
@@ -345,9 +342,8 @@ class CharsLoader:
 
         bacth_images_path = []
 
-        #test_character_index = random.sample(
-            #range(0, number_of_characters), 1)
-        test_character_index = random.randint(0, number_of_characters)
+        test_character_index = random.sample(
+            range(0, number_of_characters), 1)
 
         # Get test image
         current_character = available_characters[test_character_index]
@@ -377,13 +373,9 @@ class CharsLoader:
         # There may be some buckets with less than 20 characters
         if number_of_characters < number_of_support_characters:
             number_of_support_characters = number_of_characters
-        # cause by different_characters.pop()
-        if number_of_support_characters > len(different_characters):
-            number_of_support_characters = len(different_characters)
-        #support_characters_indexes = random.sample(
-            #range(0, number_of_characters - 1), number_of_support_characters - 1)
+
         support_characters_indexes = random.sample(
-            range(0, len(different_characters) - 1), number_of_support_characters - 1)
+            range(0, number_of_characters - 1), number_of_support_characters - 1)
 
         for index in support_characters_indexes:
             current_character = different_characters[index]
