@@ -249,6 +249,7 @@ class CharsLoader:
         current_bucket = self.__train_buckets[self.__current_train_bucket_index]
         available_characters = list(
             self.train_dictionary[current_bucket].keys())
+        print("current_bucket: ", current_bucket)
         number_of_characters = len(available_characters)
 
         bacth_images_path = []
@@ -281,12 +282,16 @@ class CharsLoader:
             bacth_images_path.append(image)
             different_characters = available_characters[:]
             different_characters.pop(index)
-            different_character_index = random.sample(
-                range(0, number_of_characters - 1), 1)
-            current_character = different_characters[different_character_index[0]]
+            print("number_of_characters in get_train_batch(): ", number_of_characters)
+            #different_character_index = random.sample(
+                #range(0, number_of_characters), 1)
+            different_character_index = random.randint(0, len(different_characters))
+            print("different_character_index: ", different_character_index)
+            print("len(different_characters): ", len(different_characters))
+            current_character = different_characters[different_character_index]
             available_images = (self.train_dictionary[current_bucket])[
                 current_character]
-            image_indexes = random.sample(range(0, 19), 1)
+            image_indexes = random.sample(range(0, 20), 1)
             image_path = os.path.join(
                 self.dataset_path, 'images_background', current_bucket, current_character)
             image = os.path.join(
@@ -340,15 +345,16 @@ class CharsLoader:
 
         bacth_images_path = []
 
-        test_character_index = random.sample(
-            range(0, number_of_characters), 1)
+        #test_character_index = random.sample(
+            #range(0, number_of_characters), 1)
+        test_character_index = random.randint(0, number_of_characters)
 
         # Get test image
-        current_character = available_characters[test_character_index[0]]
+        current_character = available_characters[test_character_index]
 
         available_images = (dictionary[current_bucket])[current_character]
 
-        image_indexes = random.sample(range(0, 19), 2)
+        image_indexes = random.sample(range(0, 20), 2)
         image_path = os.path.join(
             self.dataset_path, image_folder_name, current_bucket, current_character)
 
@@ -366,14 +372,18 @@ class CharsLoader:
             number_of_support_characters = support_set_size
 
         different_characters = available_characters[:]
-        different_characters.pop(test_character_index[0])
+        different_characters.pop(test_character_index)
 
         # There may be some buckets with less than 20 characters
         if number_of_characters < number_of_support_characters:
             number_of_support_characters = number_of_characters
-
+        # cause by different_characters.pop()
+        if number_of_support_characters > len(different_characters):
+            number_of_support_characters = len(different_characters)
+        #support_characters_indexes = random.sample(
+            #range(0, number_of_characters - 1), number_of_support_characters - 1)
         support_characters_indexes = random.sample(
-            range(0, number_of_characters - 1), number_of_support_characters - 1)
+            range(0, len(different_characters) - 1), number_of_support_characters - 1)
 
         for index in support_characters_indexes:
             current_character = different_characters[index]
@@ -382,7 +392,7 @@ class CharsLoader:
             image_path = os.path.join(
                 self.dataset_path, image_folder_name, current_bucket, current_character)
 
-            image_indexes = random.sample(range(0, 19), 1)
+            image_indexes = random.sample(range(0, 20), 1)
             image = os.path.join(
                 image_path, available_images[image_indexes[0]])
             bacth_images_path.append(test_image)
