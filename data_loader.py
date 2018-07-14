@@ -285,7 +285,7 @@ class CharsLoader:
             # number_of_characters must be larger than 1, otherwise it has not 2 samples to compare
             different_character_index = random.sample(
                 range(0, number_of_characters - 1), 1)
-            current_character = different_characters[different_character_index]
+            current_character = different_characters[different_character_index[0]]
             available_images = (self.train_dictionary[current_bucket])[
                 current_character]
             image_indexes = random.sample(range(0, 20), 1)
