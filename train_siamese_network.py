@@ -7,7 +7,7 @@ def main():
     dataset_path = 'gen_simulated_data'
     use_augmentation = True
     learning_rate = 10e-4
-    batch_size = 2
+    batch_size = 16
     # Learning Rate multipliers for each layer
     learning_rate_multipliers = {}
     learning_rate_multipliers['Conv1'] = 1
