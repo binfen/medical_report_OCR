@@ -268,7 +268,7 @@ class SiameseNetwork:
             # stored losses and accuracies
             if (iteration + 1) % evaluate_each == 0:
                 # evaluation时需要进行验证的图像数目
-                number_of_runs_per_bucket = 40
+                number_of_runs_per_bucket = 20
                 # use a support set size equal to the number of character in the bucket
                 validation_accuracy = self.chars_loader.one_shot_test(
                     self.model, support_set_size, number_of_runs_per_bucket, is_validation=True)
@@ -302,7 +302,7 @@ class SiameseNetwork:
                         self.model.save_weights('models/' + model_name + '.h5')
 
             # If accuracy does not improve for 10000 batches stop the training
-            if iteration - best_accuracy_iteration > 10000:
+            if iteration - best_accuracy_iteration > 50000:
                 print(
                     'Early Stopping: validation accuracy did not increase for 10000 iterations')
                 print('Best Validation Accuracy = ' +

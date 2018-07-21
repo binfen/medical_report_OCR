@@ -85,7 +85,7 @@ def gen_image(line, i, length, is_background):
 
 
 print("Begin!")
-item_file = os.path.join(root_path, 'gen_simulated_data/items.txt')
+item_file = os.path.join(root_path, 'gen_simulated_data/items1.txt')
 with open(item_file) as f:
     lines = f.readlines()
     lines_num = len(lines)

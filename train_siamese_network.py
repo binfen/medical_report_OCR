@@ -7,7 +7,7 @@ def main():
     dataset_path = 'gen_simulated_data'
     use_augmentation = True
     learning_rate = 10e-4
-    batch_size = 16
+    batch_size = 32
     # Learning Rate multipliers for each layer
     learning_rate_multipliers = {}
     learning_rate_multipliers['Conv1'] = 1
@@ -41,7 +41,7 @@ def main():
     # support_set指支持一次"图像验证"的图像集合，即1：N image evaluation的N
     support_set_size = 20
     # evaluation时需要进行验证的图像数目
-    number_of_tasks_per_bucket = 40
+    number_of_tasks_per_bucket = 20
     evaluate_each = 500
     number_of_train_iterations = 1000000
 
