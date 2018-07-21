@@ -249,7 +249,7 @@ class CharsLoader:
         current_bucket = self.__train_buckets[self.__current_train_bucket_index]
         available_characters = list(
             self.train_dictionary[current_bucket].keys())
-        print("current_bucket: ", current_bucket)
+        #print("current_bucket: ", current_bucket)
         number_of_characters = len(available_characters)
 
         bacth_images_path = []

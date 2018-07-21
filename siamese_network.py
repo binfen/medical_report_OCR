@@ -84,27 +84,27 @@ class SiameseNetwork:
 
         # Let's define the cnn architecture
         convolutional_net = Sequential()
-        convolutional_net.add(Conv2D(filters=64, kernel_size=(3, 15),
+        convolutional_net.add(Conv2D(filters=64, kernel_size=(4, 4), strides=(2, 2),
                                      activation='relu',
                                      input_shape=self.input_shape,
                                      kernel_regularizer=l2(
                                          l2_regularization_penalization['Conv1']),
                                      name='Conv1'))
-        convolutional_net.add(Conv2D(filters=64, kernel_size=(3, 11),
+        convolutional_net.add(Conv2D(filters=64, kernel_size=(3, 4), strides=(2, 2),
                                      activation='relu',
                                      kernel_regularizer=l2(
                                          l2_regularization_penalization['Conv2']),
                                      name='Conv2'))
-        convolutional_net.add(MaxPool2D())
+        #convolutional_net.add(MaxPool2D())
 
-        convolutional_net.add(Conv2D(filters=128, kernel_size=(3, 8),
+        convolutional_net.add(Conv2D(filters=128, kernel_size=(3, 3), strides=(1, 2),
                                      activation='relu',
                                      kernel_regularizer=l2(
                                          l2_regularization_penalization['Conv3']),
                                      name='Conv3'))
-        convolutional_net.add(MaxPool2D())
+        #convolutional_net.add(MaxPool2D())
 
-        convolutional_net.add(Conv2D(filters=128, kernel_size=(2, 4),
+        convolutional_net.add(Conv2D(filters=256, kernel_size=(2, 2), strides=(1, 2),
                                      activation='relu',
                                      kernel_regularizer=l2(
                                          l2_regularization_penalization['Conv4']),
@@ -122,7 +122,7 @@ class SiameseNetwork:
 
         convolutional_net.add(Flatten())
         convolutional_net.add(
-            Dense(units=4096, activation='sigmoid',
+            Dense(units=1024, activation='sigmoid',
                   kernel_regularizer=l2(
                       l2_regularization_penalization['Dense1']),
                   name='Dense1'))
