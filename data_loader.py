@@ -52,8 +52,8 @@ class CharsLoader:
         self.dataset_path = os.path.join(root_path, dataset_path)
         self.train_dictionary = {}  #set value by hand?
         self.evaluation_dictionary = {}
-        self.image_width = 640
-        self.image_height = 64
+        self.image_width = 330
+        self.image_height = 24
         self.batch_size = batch_size
         self.use_augmentation = use_augmentation
         self.__train_buckets = []
@@ -346,7 +346,7 @@ class CharsLoader:
             range(0, number_of_characters), 1)
 
         # Get test image
-        current_character = available_characters[test_character_index]
+        current_character = available_characters[test_character_index[0]]
 
         available_images = (dictionary[current_bucket])[current_character]
 
@@ -368,7 +368,7 @@ class CharsLoader:
             number_of_support_characters = support_set_size
 
         different_characters = available_characters[:]
-        different_characters.pop(test_character_index)
+        different_characters.pop(test_character_index[0])
 
         # There may be some buckets with less than 20 characters
         if number_of_characters < number_of_support_characters:
@@ -429,8 +429,10 @@ class CharsLoader:
                 # the argmax would be always by defenition 0.
                 if np.argmax(probabilities) == 0 and probabilities.std()>0.01:
                     accuracy = 1.0
+                    print("accuracy = 1.0")
                 else:
                     accuracy = 0.0
+                    print("accuracy = ", np.mean(probabilities))
 
                 mean_bucket_accuracy += accuracy
                 mean_global_accuracy += accuracy
@@ -459,7 +461,7 @@ class CharsLoader:
 
 def main():
     loader = CharsLoader(
-        dataset_path="Omniglot Dataset", use_augmentation=True, batch_size=16)
+        dataset_path="gen_simulated_data", use_augmentation=True, batch_size=16)
     loader.load_dataset()
     loader.split_train_datasets()
     images, labels = loader.get_train_batch()

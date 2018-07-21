@@ -14,7 +14,7 @@ def main():
     learning_rate_multipliers['Conv2'] = 1
     learning_rate_multipliers['Conv3'] = 1
     learning_rate_multipliers['Conv4'] = 1
-    learning_rate_multipliers['Conv5'] = 1
+    #learning_rate_multipliers['Conv5'] = 1
     learning_rate_multipliers['Dense1'] = 1
     # l2-regularization penalization for each layer
     l2_penalization = {}
@@ -22,7 +22,7 @@ def main():
     l2_penalization['Conv2'] = 1e-2
     l2_penalization['Conv3'] = 1e-2
     l2_penalization['Conv4'] = 1e-2
-    l2_penalization['Conv5'] = 1e-2
+    #l2_penalization['Conv5'] = 1e-2
     l2_penalization['Dense1'] = 1e-4
     # Path where the logs will be saved
     tensorboard_log_path = './logs/siamese_net_lr10e-4'
@@ -42,7 +42,7 @@ def main():
     support_set_size = 20
     # evaluation时需要进行验证的图像数目
     number_of_tasks_per_bucket = 40
-    evaluate_each = 1000
+    evaluate_each = 500
     number_of_train_iterations = 1000000
 
     validation_accuracy = siamese_network.train_siamese_network(number_of_iterations=number_of_train_iterations,
