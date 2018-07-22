@@ -268,7 +268,7 @@ class CharsLoader:
 
             # Random select a 3 indexes of images from the same character (Remember
             # that for each character we have 20 examples).
-            image_indexes = random.sample(range(0, 19), 3)
+            image_indexes = random.sample(range(0, 4), 3)
             image = os.path.join(
                 image_path, available_images[image_indexes[0]])
             bacth_images_path.append(image)
@@ -288,7 +288,7 @@ class CharsLoader:
             current_character = different_characters[different_character_index[0]]
             available_images = (self.train_dictionary[current_bucket])[
                 current_character]
-            image_indexes = random.sample(range(0, 20), 1)
+            image_indexes = random.sample(range(0, 5), 1)
             image_path = os.path.join(
                 self.dataset_path, 'images_background', current_bucket, current_character)
             image = os.path.join(
@@ -351,7 +351,7 @@ class CharsLoader:
 
         available_images = (dictionary[current_bucket])[current_character]
 
-        image_indexes = random.sample(range(0, 20), 2)
+        image_indexes = random.sample(range(0, 5), 2)
         image_path = os.path.join(
             self.dataset_path, image_folder_name, current_bucket, current_character)
 
@@ -385,7 +385,7 @@ class CharsLoader:
             image_path = os.path.join(
                 self.dataset_path, image_folder_name, current_bucket, current_character)
 
-            image_indexes = random.sample(range(0, 20), 1)
+            image_indexes = random.sample(range(0, 5), 1)
             image = os.path.join(
                 image_path, available_images[image_indexes[0]])
             bacth_images_path.append(test_image)

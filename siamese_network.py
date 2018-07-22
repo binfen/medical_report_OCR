@@ -302,7 +302,7 @@ class SiameseNetwork:
                         self.model.save_weights('models/' + model_name + '.h5')
 
             # If accuracy does not improve for 10000 batches stop the training
-            if iteration - best_accuracy_iteration > 50000:
+            if iteration - best_accuracy_iteration > 100000:
                 print(
                     'Early Stopping: validation accuracy did not increase for 10000 iterations')
                 print('Best Validation Accuracy = ' +
