@@ -52,7 +52,7 @@ class CharsLoader:
         self.dataset_path = os.path.join(root_path, dataset_path)
         self.train_dictionary = {}  #set value by hand?
         self.evaluation_dictionary = {}
-        self.image_width = 330
+        self.image_width = 220
         self.image_height = 24
         self.batch_size = batch_size
         self.use_augmentation = use_augmentation
@@ -297,8 +297,9 @@ class CharsLoader:
 
         self.__current_train_bucket_index += 1
 
-        # 超过80%的trainset的bucket时，从头再来
-        if (self.__current_train_bucket_index > 5):
+        # 超过images_background的bucket的index时，从头再来
+        max_bucket_index = len(self.__train_buckets) - 1
+        if (self.__current_train_bucket_index > max_bucket_index):
             self.__current_train_bucket_index = 0
 
         images, labels = self.__convert_path_list_to_images_and_labels(
@@ -461,7 +462,7 @@ class CharsLoader:
 
 def main():
     loader = CharsLoader(
-        dataset_path="gen_simulated_data", use_augmentation=True, batch_size=16)
+        dataset_path="gen_simulated_data", use_augmentation=True, batch_size=32)
     loader.load_dataset()
     loader.split_train_datasets()
     images, labels = loader.get_train_batch()

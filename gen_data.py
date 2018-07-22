@@ -58,7 +58,7 @@ def gen_image(line, i, length, is_background):
 		font_size
 	'''
     k = length // 2  # belong to bucket k, the minimum length is 0
-    max_width = 33*10
+    max_width = 22*10
     h = 24
     if is_background:
         dataset_path = os.path.join(root_path, 'gen_simulated_data/images_background')
