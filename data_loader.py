@@ -204,15 +204,15 @@ class CharsLoader:
             if not is_one_shot_task:
                 # 因为path_list的奇数代表负样本，偶数代表正样本
                 if (pair + 1) % 2 == 0:
-                    labels[pair] = 1
-                else:
                     labels[pair] = 0
+                else:
+                    labels[pair] = 1
 
             else:
                 if pair == 0:
-                    labels[pair] = 0
-                else:
                     labels[pair] = 1
+                else:
+                    labels[pair] = 0
 
         if not is_one_shot_task:
             random_permutation = np.random.permutation(number_of_pairs)
