@@ -5,7 +5,7 @@ from siamese_network import SiameseNetwork
 
 def main():
     dataset_path = 'gen_simulated_data'
-    use_augmentation = True
+    use_augmentation = False
     learning_rate = 10e-4
     batch_size = 32
     # Learning Rate multipliers for each layer
